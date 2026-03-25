@@ -5,6 +5,7 @@ import Player from '../components/Player.astro';
 import Lyrics from '../components/Lyrics.astro';
 import Show from '../components/Show.astro';
 import Sponsors from '../components/Sponsors.astro';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <style is:global>
@@ -27,7 +28,7 @@ import Sponsors from '../components/Sponsors.astro';
   <section id="home" class="relative min-h-screen flex items-end overflow-hidden">
     <div class="absolute inset-0">
       <img
-        src="/images/ImagemPrincipal.jpg"
+        src={`${base}/images/ImagemPrincipal.jpg`}
         alt="Juh Vieira"
         class="w-full h-full object-cover object-[center_20%]"
       />
@@ -60,7 +61,7 @@ import Sponsors from '../components/Sponsors.astro';
   <section class="py-16 px-4 bg-zinc-900 border-y border-white/5">
     <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-10 items-center">
       <img
-        src="/images/Imagem_Principal.jpeg"
+        src={`${base}/images/Imagem_Principal.jpeg`}
         alt="Juh Vieira – foto"
         class="w-full rounded-2xl object-cover aspect-[4/3]"
         loading="lazy"

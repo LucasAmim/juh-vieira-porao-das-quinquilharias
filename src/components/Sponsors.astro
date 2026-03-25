@@ -1,9 +1,10 @@
 ---
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const sponsors = [
-  { src: '/images/Patrocinadores/fundo_cultura.png', alt: 'Fundo de Cultura' },
-  { src: '/images/Patrocinadores/conselho_municipal.png', alt: 'Conselho Municipal de Cultura' },
-  { src: '/images/Patrocinadores/municipal_cultura.png', alt: 'Secretaria Municipal de Cultura' },
-  { src: '/images/Patrocinadores/jandira_governo_municipal.png', alt: 'Prefeitura de Jandira' },
+  { src: `${base}/images/Patrocinadores/fundo_cultura.png`, alt: 'Fundo de Cultura' },
+  { src: `${base}/images/Patrocinadores/conselho_municipal.png`, alt: 'Conselho Municipal de Cultura' },
+  { src: `${base}/images/Patrocinadores/municipal_cultura.png`, alt: 'Secretaria Municipal de Cultura' },
+  { src: `${base}/images/Patrocinadores/jandira_governo_municipal.png`, alt: 'Prefeitura de Jandira' },
 ];
 ---
 

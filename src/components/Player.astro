@@ -1,5 +1,6 @@
 ---
 import { songs } from '../data/songs';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <section id="disco" class="py-24 px-4 bg-zinc-950">
@@ -40,7 +41,7 @@ import { songs } from '../data/songs';
       {songs.map((song, i) => (
         <li
           data-index={i}
-          data-src={song.file}
+          data-src={`${base}${song.file}`}
           class="track-item glass rounded-xl px-5 py-4 flex items-center gap-4 cursor-pointer hover:border-amber-500/40 transition-all duration-200 group"
         >
           <span class="track-num text-zinc-500 text-sm w-6 text-center group-hover:hidden">{String(i + 1).padStart(2, '0')}</span>
