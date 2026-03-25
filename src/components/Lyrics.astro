@@ -4,9 +4,9 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const songsWithLyrics = songs.filter(s => s.lyrics);
 ---
 
-<style define:vars={{ bgUrl: `${base}/images/back2.jpg` }}>
+<style is:global>
   .letras-bg {
-    background-image: var(--bgUrl);
+    background-image: url('/juh-vieira-porao-das-quinquilharias/images/back2.jpg');
     background-size: cover;
     background-attachment: fixed;
     background-position: center;
