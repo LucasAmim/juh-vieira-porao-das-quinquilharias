@@ -1,0 +1,24 @@
+---
+const sponsors = [
+  { src: '/images/Patrocinadores/fundo_cultura.png', alt: 'Fundo de Cultura' },
+  { src: '/images/Patrocinadores/conselho_municipal.png', alt: 'Conselho Municipal de Cultura' },
+  { src: '/images/Patrocinadores/municipal_cultura.png', alt: 'Secretaria Municipal de Cultura' },
+  { src: '/images/Patrocinadores/jandira_governo_municipal.png', alt: 'Prefeitura de Jandira' },
+];
+---
+
+<section id="patrocinadores" class="py-20 px-4 bg-zinc-950 border-t border-white/5">
+  <div class="max-w-5xl mx-auto text-center">
+    <p class="text-xs text-zinc-500 uppercase tracking-widest mb-10">Realização e Apoio</p>
+    <div class="flex flex-wrap items-center justify-center gap-10">
+      {sponsors.map(s => (
+        <img
+          src={s.src}
+          alt={s.alt}
+          class="h-16 md:h-20 object-contain opacity-80 hover:opacity-100 transition-opacity duration-300"
+          loading="lazy"
+        />
+      ))}
+    </div>
+  </div>
+</section>

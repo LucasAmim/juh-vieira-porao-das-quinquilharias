@@ -1,0 +1,90 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Player from '../components/Player.astro';
+import Lyrics from '../components/Lyrics.astro';
+import Show from '../components/Show.astro';
+import Sponsors from '../components/Sponsors.astro';
+---
+
+<style is:global>
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem;
+    color: white;
+    letter-spacing: 0.03em;
+    line-height: 0.9;
+  }
+  @media (max-width: 768px) {
+    .hero-title { font-size: 5.5rem; }
+  }
+</style>
+
+<Layout>
+  <Navbar />
+
+  <!-- Hero -->
+  <section id="home" class="relative min-h-screen flex items-end overflow-hidden">
+    <div class="absolute inset-0">
+      <img
+        src="/images/ImagemPrincipal.jpg"
+        alt="Juh Vieira"
+        class="w-full h-full object-cover object-[center_20%]"
+      />
+      <!-- gradiente mais forte na base e lateral esquerda, preserva o rosto no centro/direita -->
+      <div class="absolute inset-0" style="background: linear-gradient(to top, #09090b 0%, #09090b 18%, rgba(9,9,11,0.55) 45%, transparent 75%), linear-gradient(to right, rgba(9,9,11,0.85) 0%, rgba(9,9,11,0.4) 40%, transparent 65%);"></div>
+    </div>
+
+    <div class="relative z-10 max-w-6xl mx-auto px-4 pb-24 md:pb-32 w-full">
+      <p class="text-amber-400 text-xs uppercase tracking-[0.35em] mb-3">Álbum</p>
+      <h1 class="hero-title leading-none mb-6">
+        Porão das<br/>Quinquilharias
+      </h1>
+      <p class="text-zinc-300 text-xl md:text-2xl font-light mb-10">
+        Juh Vieira
+      </p>
+      <div class="flex flex-wrap gap-4">
+        <a href="#disco" class="btn-primary text-sm">Ouvir Álbum</a>
+        <a href="#show" class="px-5 py-2 border border-white/20 hover:border-amber-400/60 text-zinc-200 hover:text-amber-400 font-medium rounded-full transition-all duration-200 text-sm">Ver Show</a>
+      </div>
+    </div>
+
+    <a href="#disco" class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 text-zinc-400 hover:text-amber-400 transition-colors animate-bounce" aria-label="Rolar para baixo">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+      </svg>
+    </a>
+  </section>
+
+  <!-- About strip -->
+  <section class="py-16 px-4 bg-zinc-900 border-y border-white/5">
+    <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-10 items-center">
+      <img
+        src="/images/Imagem_Principal.jpeg"
+        alt="Juh Vieira – foto"
+        class="w-full rounded-2xl object-cover aspect-[4/3]"
+        loading="lazy"
+      />
+      <div>
+        <h2 class="font-display text-3xl md:text-4xl text-amber-400 mb-4">Sobre o Álbum</h2>
+        <p class="text-zinc-300 leading-relaxed mb-4">
+          <em>Porão das Quinquilharias</em> é um mergulho na memória afetiva, na linguagem popular e no humor ácido da tradição musical brasileira. Dez faixas que transitam entre o samba, o bolero, a música caipira e a poesia de rua.
+        </p>
+        <p class="text-zinc-400 text-sm leading-relaxed">
+          Gravado nos Estúdios Bordão da Mata – Borda da Mata, MG e São Jorge – Cotia, SP.<br/>
+          Masterizado por Nicholas T. Rabinovitch no Estúdio NTR.<br/>
+          Produção musical: Dicinho Areias · Direção: Juh Vieira · Ilustrações: Diogo Oliveira
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <Player />
+  <Lyrics />
+  <Show />
+  <Sponsors />
+
+  <footer class="py-8 px-4 bg-zinc-950 text-center text-zinc-600 text-sm border-t border-white/5">
+    <p>© {new Date().getFullYear()} Juh Vieira – Porão das Quinquilharias. Todos os direitos reservados.</p>
+  </footer>
+</Layout>

@@ -1,0 +1,167 @@
+---
+import { songs } from '../data/songs';
+---
+
+<section id="disco" class="py-24 px-4 bg-zinc-950">
+  <div class="max-w-6xl mx-auto">
+    <h2 class="font-display text-4xl md:text-5xl text-amber-400 mb-4">Porão das Quinquilharias</h2>
+    <p class="text-zinc-400 mb-12 text-lg">Álbum completo — 10 faixas</p>
+
+    <div id="player-container" class="glass rounded-2xl p-6 mb-10 sticky top-20 z-40">
+      <div class="flex items-center gap-4">
+        <div class="flex-1 min-w-0">
+          <p class="text-xs text-amber-400 uppercase tracking-widest mb-1">Tocando agora</p>
+          <p id="now-playing-title" class="font-display text-xl text-white truncate">—</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <button id="btn-prev" aria-label="Anterior" class="text-zinc-400 hover:text-amber-400 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg>
+          </button>
+          <button id="btn-play" aria-label="Play/Pause" class="w-12 h-12 rounded-full bg-amber-500 hover:bg-amber-400 flex items-center justify-center transition-colors">
+            <svg id="icon-play" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-black" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <svg id="icon-pause" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-black hidden" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+          </button>
+          <button id="btn-next" aria-label="Próxima" class="text-zinc-400 hover:text-amber-400 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zm2.5-6 5.5 3.9V8.1L8.5 12zM16 6h2v12h-2z"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="mt-4 flex items-center gap-3">
+        <span id="time-current" class="text-xs text-zinc-500 w-10 text-right">0:00</span>
+        <div id="progress-bar" class="flex-1 h-1.5 bg-zinc-700 rounded-full cursor-pointer relative">
+          <div id="progress-fill" class="h-full bg-amber-500 rounded-full w-0 transition-none pointer-events-none"></div>
+        </div>
+        <span id="time-total" class="text-xs text-zinc-500 w-10">0:00</span>
+        <input id="volume" type="range" min="0" max="1" step="0.05" value="0.8" class="w-20 accent-amber-500" aria-label="Volume" />
+      </div>
+    </div>
+
+    <ul class="space-y-2">
+      {songs.map((song, i) => (
+        <li
+          data-index={i}
+          data-src={song.file}
+          class="track-item glass rounded-xl px-5 py-4 flex items-center gap-4 cursor-pointer hover:border-amber-500/40 transition-all duration-200 group"
+        >
+          <span class="track-num text-zinc-500 text-sm w-6 text-center group-hover:hidden">{String(i + 1).padStart(2, '0')}</span>
+          <svg class="track-play-icon hidden group-hover:block w-5 h-5 text-amber-400" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          <div class="flex-1 min-w-0">
+            <p class="track-title font-medium text-zinc-100 truncate">{song.title}</p>
+            <p class="text-xs text-zinc-500 truncate mt-0.5">{song.credits}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<audio id="audio-player" preload="none"></audio>
+
+<script>
+  const songs = (window as any).__SONGS__ || [];
+
+  const audio = document.getElementById('audio-player') as HTMLAudioElement;
+  const btnPlay = document.getElementById('btn-play')!;
+  const btnPrev = document.getElementById('btn-prev')!;
+  const btnNext = document.getElementById('btn-next')!;
+  const iconPlay = document.getElementById('icon-play')!;
+  const iconPause = document.getElementById('icon-pause')!;
+  const nowPlaying = document.getElementById('now-playing-title')!;
+  const progressFill = document.getElementById('progress-fill')!;
+  const progressBar = document.getElementById('progress-bar')!;
+  const timeCurrent = document.getElementById('time-current')!;
+  const timeTotal = document.getElementById('time-total')!;
+  const volumeInput = document.getElementById('volume') as HTMLInputElement;
+  const tracks = document.querySelectorAll<HTMLElement>('.track-item');
+
+  let currentIndex = -1;
+
+  function fmt(s: number) {
+    const m = Math.floor(s / 60);
+    const sec = Math.floor(s % 60);
+    return `${m}:${sec.toString().padStart(2, '0')}`;
+  }
+
+  function setActive(idx: number) {
+    tracks.forEach((t, i) => {
+      t.classList.toggle('border-amber-500/60', i === idx);
+      t.classList.toggle('bg-amber-500/10', i === idx);
+      const num = t.querySelector('.track-num');
+      if (num) num.textContent = i === idx ? '▶' : String(i + 1).padStart(2, '0');
+    });
+  }
+
+  function loadTrack(idx: number, autoplay = true) {
+    const track = tracks[idx];
+    if (!track) return;
+    currentIndex = idx;
+    const src = track.dataset.src!;
+    const title = track.querySelector('.track-title')!.textContent!;
+    audio.src = src;
+    nowPlaying.textContent = title;
+    setActive(idx);
+    if (autoplay) audio.play();
+  }
+
+  tracks.forEach((t, i) => {
+    t.addEventListener('click', () => {
+      if (currentIndex === i && !audio.paused) {
+        audio.pause();
+      } else if (currentIndex === i) {
+        audio.play();
+      } else {
+        loadTrack(i);
+      }
+    });
+  });
+
+  btnPlay.addEventListener('click', () => {
+    if (currentIndex === -1) { loadTrack(0); return; }
+    audio.paused ? audio.play() : audio.pause();
+  });
+
+  btnPrev.addEventListener('click', () => {
+    if (currentIndex > 0) loadTrack(currentIndex - 1);
+  });
+
+  btnNext.addEventListener('click', () => {
+    if (currentIndex < tracks.length - 1) loadTrack(currentIndex + 1);
+  });
+
+  audio.addEventListener('play', () => {
+    iconPlay.classList.add('hidden');
+    iconPause.classList.remove('hidden');
+  });
+
+  audio.addEventListener('pause', () => {
+    iconPlay.classList.remove('hidden');
+    iconPause.classList.add('hidden');
+  });
+
+  audio.addEventListener('ended', () => {
+    if (currentIndex < tracks.length - 1) loadTrack(currentIndex + 1);
+  });
+
+  audio.addEventListener('timeupdate', () => {
+    if (!audio.duration) return;
+    const pct = (audio.currentTime / audio.duration) * 100;
+    progressFill.style.width = pct + '%';
+    timeCurrent.textContent = fmt(audio.currentTime);
+  });
+
+  audio.addEventListener('loadedmetadata', () => {
+    timeTotal.textContent = fmt(audio.duration);
+  });
+
+  progressBar.addEventListener('click', (e) => {
+    const rect = progressBar.getBoundingClientRect();
+    const pct = (e.clientX - rect.left) / rect.width;
+    audio.currentTime = pct * audio.duration;
+  });
+
+  volumeInput.addEventListener('input', () => {
+    audio.volume = parseFloat(volumeInput.value);
+  });
+
+  audio.volume = 0.8;
+</script>

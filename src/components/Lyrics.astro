@@ -1,0 +1,48 @@
+---
+import { songs } from '../data/songs';
+const songsWithLyrics = songs.filter(s => s.lyrics);
+---
+
+<section id="letras" class="py-24 px-4" style="background-image: url('/images/back2.jpg'); background-size: cover; background-attachment: fixed; background-position: center;">
+  <div class="max-w-4xl mx-auto">
+    <div class="glass rounded-2xl p-8 md:p-12">
+      <h2 class="font-display text-4xl md:text-5xl text-amber-400 mb-12">Letras</h2>
+
+      <div class="space-y-4" id="lyrics-accordion">
+        {songsWithLyrics.map((song, i) => (
+          <div class="border border-white/10 rounded-xl overflow-hidden">
+            <button
+              class="lyrics-toggle w-full flex items-center justify-between px-6 py-4 text-left hover:bg-white/5 transition-colors"
+              data-target={`lyrics-${i}`}
+              aria-expanded="false"
+            >
+              <span class="font-display text-lg text-zinc-100">{song.title}</span>
+              <svg class="chevron w-5 h-5 text-amber-400 transition-transform duration-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </button>
+            <div id={`lyrics-${i}`} class="lyrics-content hidden px-6 pb-6">
+              <pre class="text-zinc-300 text-sm leading-relaxed whitespace-pre-wrap font-sans">{song.lyrics}</pre>
+              <p class="mt-4 text-xs text-zinc-500 italic">{song.credits}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll('.lyrics-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetId = (btn as HTMLElement).dataset.target!;
+      const content = document.getElementById(targetId)!;
+      const chevron = btn.querySelector('.chevron') as HTMLElement;
+      const isOpen = !content.classList.contains('hidden');
+
+      content.classList.toggle('hidden', isOpen);
+      chevron.style.transform = isOpen ? '' : 'rotate(180deg)';
+      btn.setAttribute('aria-expanded', String(!isOpen));
+    });
+  });
+</script>
