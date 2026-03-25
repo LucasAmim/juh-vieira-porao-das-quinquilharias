@@ -4,21 +4,6 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const songsWithLyrics = songs.filter(s => s.lyrics);
 ---
 
-<style is:global>
-  .letras-bg {
-    background-image: url('/juh-vieira-porao-das-quinquilharias/images/back2.jpg');
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: center;
-  }
-  @media (max-width: 768px) {
-    .letras-bg {
-      background-attachment: scroll;
-      background-position: center top;
-    }
-  }
-</style>
-
 <section id="letras" class="py-24 px-4 letras-bg">
   <div class="max-w-4xl mx-auto">
     <div class="glass rounded-2xl p-8 md:p-12">

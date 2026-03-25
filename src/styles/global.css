@@ -26,3 +26,16 @@
     background-color: theme(--color-amber-400);
   }
 }
+
+.letras-bg {
+  background-image: url('/juh-vieira-porao-das-quinquilharias/images/back2.jpg');
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+}
+@media (max-width: 768px) {
+  .letras-bg {
+    background-attachment: scroll;
+    background-position: center top;
+  }
+}
