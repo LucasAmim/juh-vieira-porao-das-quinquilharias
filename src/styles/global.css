@@ -39,3 +39,10 @@
     background-position: center top;
   }
 }
+
+@media (max-width: 768px) {
+  #letras .glass {
+    background-color: rgb(0 0 0 / 0.95);
+    backdrop-filter: none;
+  }
+}
